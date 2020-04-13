@@ -20,8 +20,11 @@ class Stack():
 		return self.items == []
 
 	def peek(self):
-		if not is_empty():
+		if not self.is_empty():
 			return self.items[-1]
+
+	def get_stack(self):
+		return self.items
 
 
 def is_paren_balanced(paren_string):
