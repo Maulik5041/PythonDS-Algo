@@ -13,3 +13,10 @@ class LinkedList():
 
 	def __init__(self):
 		self.head = None
+
+	# Printing the list
+	def print_list(self):
+		cur_node = self.head
+		while cur_node:
+			print(cur_node.data)
+			cur_node = cur_node.next
