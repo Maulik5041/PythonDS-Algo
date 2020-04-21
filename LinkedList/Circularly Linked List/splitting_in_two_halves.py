@@ -1,24 +1,25 @@
-# Deleting a node from a circular linked list
+# Splitting a circular linked list in two halves
 
-# Creating node class
+# Creating Node class
 class Node:
 	def __init__(self, data):
 		self.data = data
 		self.next = None
 
-
-# Creating Circular linked list node
+# Creating Circular Linked List class
 class CircularLinkedList:
 	def __init__(self):
 		self.head = None
 
 	def print_list(self):
 		cur = self.head
+
 		while cur:
 			print(cur.data)
 			cur = cur.next
 			if cur == self.head:
 				break
+
 
 	def prepend(self, data):
 		new_node = Node(data)
@@ -50,7 +51,7 @@ class CircularLinkedList:
 	def remove(self, key):
 		if self.head:
 			if self.head.data == key:
-				cur = self.head 
+				cur = self.head
 				while cur.next != self.head:
 					cur = cur.next
 				if self.head == self.head.next:
@@ -58,7 +59,6 @@ class CircularLinkedList:
 				else:
 					cur.next = self.head.next
 					self.head = self.head.next
-
 			else:
 				cur = self.head
 				prev = None
@@ -69,15 +69,55 @@ class CircularLinkedList:
 						prev.next = cur.next
 						cur = cur.next
 
+	def __len__(self):
+		cur = self.head
+		count = 0
+		while cur:
+			count += 1
+			cur = cur.next
+			if cur == self.head:
+				break
+		return count
+
+	def split_list(self):
+		size = len(self)
+
+		if size == 0:
+			return None
+		if size == 1:
+			return self.head
+
+		mid = size // 2
+		count = 0
+
+		prev = None
+		cur = self.head
+
+		while cur and count < mid:
+			count += 1
+			prev = cur
+			cur = cur.next
+		prev.next = self.head
+
+		split_cllist = CircularLinkedList()
+		while cur.next != self.head:
+			split_cllist.append(cur.data)
+			cur = cur.next
+		split_cllist.append(cur.data)
+
+		self.print_list()
+		print("\n")
+		split_cllist.print_list()
+
+# A -> B -> C -> D -> ...
+# A -> B -> ... and C -> D -> ...
+
 cllist = CircularLinkedList()
 cllist.append("A")
 cllist.append("B")
 cllist.append("C")
 cllist.append("D")
-cllist.print_list()
+cllist.append("E")
+cllist.append("F")
 
-print("---------------After Removing 2 nodes--------------------")
-
-cllist.remove("A")
-cllist.remove("C")
-cllist.print_list()
+cllist.split_list()
