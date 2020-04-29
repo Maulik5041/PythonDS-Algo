@@ -1,6 +1,5 @@
-# Inserting a node to a circularly linked list
+"""Inserting a node to a circularly linked list"""
 
-# Creating Node class
 class Node:
 
 	def __init__(self, data):
