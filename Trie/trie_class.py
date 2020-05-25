@@ -93,7 +93,7 @@ class Trie:
 
         else:
             child_node = current_node.children[self.get_index(key[level])]
-            child_deleted = self.delete_helper(key, child_node, length, level + 1)
+            child_deleted = self.delete_helper(key, child_node, length, level+1)
 
             if child_deleted:
                 # Making children pointer also None: since child is deleted
@@ -103,7 +103,7 @@ class Trie:
                 # current_node is part of another key
                 # So, we cannot delete this node and it's parent path nodes
                 if current_node.is_end_word:
-                    delted_self = False
+                    deleted_self = False
 
                 # If child_node is deleted and current_node has more children
                 # then current_node must be part of another key
