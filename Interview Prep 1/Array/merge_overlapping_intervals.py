@@ -1,31 +1,39 @@
 """Merge overlapping intervals in an array of interval pairs"""
 
 
-def merge_overlap(array):
+class Pair:
 
-    if not array:
-        return
+    def __init__(self, first, second):
+        self.first = first
+        self.second = second
 
-    if len(array) == 1:
-        return array[0]
 
-    start = array[0][0]
-    end = array[0][1]
+def merge_intervals(pairs):
+
+    if not pairs:
+        return None
+
     result = []
+    result.append(Pair(pairs[0].first, pairs[0].second))
 
-    for i in range(1, len(array)):
+    for i in range(1, len(pairs)):
 
-        if array[i][0] < start and array[i][1] > end:
-            start = array[i][0]
-            end = array[i][1]
+        x1 = pairs[i].first
+        y1 = pairs[i].second
 
-        elif array[i][0] < start and start <= array[i][1] < end:
-            start = array[i][0]
+        x2 = result[len(result) - 1].first
+        y2 = result[len(result) - 1].second
 
-        elif end > array[i][0] > start and array[i][1] > end:
-            end = array[i][1]
+        if y2 >= x1:
+            result[len(result) - 1].second = max(y1, y2)
+        else:
+            result.append(Pair(x1, y1))
 
-    return (start, end)
+    return result
 
 
-print(merge_overlap([(1, 5), (3, 7), (4, 6), (6, 8)]))
+p1 = [Pair(1, 5), Pair(3, 1), Pair(4, 6), Pair(6, 8), Pair(10, 12), Pair(11, 15)]
+
+res = merge_intervals(p1)
+for i in range(len(res)):
+    print("[" + str(res[i].first) + ", " + str(res[i].second) + "]", end=" ")
