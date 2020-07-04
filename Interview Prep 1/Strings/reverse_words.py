@@ -1,65 +1,87 @@
 """Reverse the order of words in a given sentence"""
 
 
-def reverse_words(sentence):
+from array import array
+import sys
 
-    # String is a null-terminated string
-    # ending with char '\0'
-    if not sentence:
+
+def get_array(a_atr):
+
+    if not a_atr:
         return
 
-    # Reverse the entire string
-    str_len = len(sentence)
-    str_rev(sentence, 0, str_len - 2)
+    arr_str = array('u', a_atr)
+    return arr_str
 
-    # All the words are at required location
-    # but verything is in reverse order
-    # Iterate over the sentence and reverse words
+
+def reverse_words(a_sentence):
+
+    if not a_sentence:
+        return
+
+    str_len = len(a_sentence)
+    str_rev(a_sentence, 0, str_len - 1)
+
     start = 0
     end = 0
 
     while True:
 
-        # Find the start of a word while skipping spaces
-        while start < str_len and sentence[start] == ' ':
+        while start < str_len and a_sentence[start] == ' ':
             start += 1
 
         if start == str_len:
             break
 
-        # Find the end of the word
         end = start + 1
-        while end < str_len and sentence[end] != ' ':
+
+        while end < str_len and a_sentence[end] != ' ':
             end += 1
 
-        # Reversing the word in-place
-        str_rev(sentence, start, end-1)
+        str_rev(a_sentence, start, end - 1)
         start = end
+
+    return a_sentence
 
 
 def str_rev(sentence, start, end):
 
-    if sentence is None or len(sentence) < 2:
+    if not sentence or len(sentence) < 2:
         return
 
     while start < end:
         temp = sentence[start]
         sentence[start] = sentence[end]
         sentence[end] = temp
-
         start += 1
         end -= 1
 
 
+def print_array(s):
+
+    i = 0
+    while i != len(s):
+        sys.stdout.write(s[i])
+        i += 1
+    print()
+
+
 def reverse_words_test():
 
-    assert reverse_words("") is None
-    assert reverse_words("Hi! My name is Tom.") == "Tom. is name My Hi!"
-    assert reverse_words("Soldier!") == "Soldier!"
-    assert reverse_words("A b cd EFG HijK Lm Nop 109") == "109 Nop Lm HijK EFG cd B A"
-    assert reverse_words(None) is None
+    # The output is returned in an array form
+    # But essentially all the sentences have been reversed
+    assert reverse_words(get_array("")) is None
+    assert reverse_words(get_array("Hi! My name is Tom.")) == array('u', 'Tom. is name My Hi!')
+    assert reverse_words(get_array("Soldier!")) == array('u', 'Soldier!')
+    assert reverse_words(get_array("A b cd EFG HijK Lm Nop 109")) == array('u', '109 Nop Lm HijK EFG cd b A')
+    assert reverse_words(get_array(None)) is None
     print("All test cases passed")
 
 
 if __name__ == '__main__':
+    # print(reverse_words(get_array("")))
+    # print(reverse_words(get_array("Hi! My name is Tom.")))
+    # print(reverse_words(get_array("Soldier!")))
+    # print(reverse_words(get_array("A b cd EFG HijK Lm Nop 109")))
+    # print(reverse_words(get_array(None)))
     reverse_words_test()
