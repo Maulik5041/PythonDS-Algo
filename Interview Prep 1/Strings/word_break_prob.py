@@ -2,22 +2,49 @@
 string can be completely segmented into dictionary words"""
 
 
-def segment_str(a_str, dictionary):
+def segment_string(a_str, a_dict):
 
-    for an_idx in range(1, len(a_str) + 1):
-        first = a_str[0:an_idx]
+    for a_char in range(1, len(a_str) + 1):
+        first = a_str[0:a_char]
 
-        if first in dictionary:
-            second = a_str[an_idx:]
+        if first in a_dict:
+            second = a_str[a_char:]
 
-            if not second or second in dictionary or segment_str(second, dictionary):
+            if (not second) or (second in a_dict) or segment_string(second, a_dict):
                 return True
+
     return False
 
 
-s = "hellonow"
-dictionary = set(["hello", "hell", "on", "now"])
-if segment_str(s, dictionary):
-    print("String Can be Segmented")
-else:
-    print("String Can NOT be Segmented")
+def segment_str_dp(a_str, a_dict):
+
+    ok = [True]
+    max_len = max(map(len, a_dict+['']))
+    a_dict = set(a_dict)
+
+    for a_char in range(1, len(a_str) + 1):
+
+        ok += any(ok[j] and a_str[j:a_char] in a_dict for j in range(max(0, a_char - max_len), a_char))
+
+    return ok[-1]
+
+
+def segment_str_dp2(a_str, a_dict):
+
+    length = len(a_str)
+    memo = [False for i in range(length+1)]
+    memo[0] = True
+
+    for idx in range(length):
+
+        if memo[idx]:
+
+            for a_word in a_dict:
+                word_len = len(a_word)
+
+                if idx + word_len <= length and a_str[idx:idx+word_len] == a_word:
+                    memo[idx+word_len] = True
+
+    return memo[length]
+
+
